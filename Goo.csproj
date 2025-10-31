@@ -9,8 +9,14 @@
     <PlatformTarget>x86</PlatformTarget>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UseAppHost>false</UseAppHost>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="GooLib/GooLib.vcxproj" />
+    <Compile Remove="Backup\**" />
+    <Compile Remove="Backup1\**" />
+    <EmbeddedResource Remove="Backup\**" />
+    <EmbeddedResource Remove="Backup1\**" />
+    <None Remove="Backup\**" />
+    <None Remove="Backup1\**" />
   </ItemGroup>
 </Project>
