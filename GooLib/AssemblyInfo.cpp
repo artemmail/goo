@@ -4,7 +4,7 @@ using namespace System;
 using namespace System::Reflection;
 using namespace System::Runtime::CompilerServices;
 using namespace System::Runtime::InteropServices;
-using namespace System::Security::Permissions;
+using namespace System::Runtime::Versioning;
 
 //
 // General Information about an assembly is controlled through the following
@@ -19,6 +19,7 @@ using namespace System::Security::Permissions;
 [assembly:AssemblyCopyrightAttribute("Copyright (c)  2009")];
 [assembly:AssemblyTrademarkAttribute("")];
 [assembly:AssemblyCultureAttribute("")];
+[assembly:TargetFrameworkAttribute(L"net8.0-windows7.0", FrameworkDisplayName = L".NET 8.0")];
 
 //
 // Version information for an assembly consists of the following four values:
@@ -36,5 +37,3 @@ using namespace System::Security::Permissions;
 [assembly:ComVisible(false)];
 
 [assembly:CLSCompliantAttribute(true)];
-
-[assembly:SecurityPermission(SecurityAction::RequestMinimum, UnmanagedCode = true)];
