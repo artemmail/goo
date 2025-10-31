@@ -1,0 +1,31 @@
+{
+  "name": "goo-angular",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "ng serve",
+    "build": "ng build",
+    "test": "ng test"
+  },
+  "dependencies": {
+    "@angular/animations": "16.2.0",
+    "@angular/common": "16.2.0",
+    "@angular/compiler": "16.2.0",
+    "@angular/core": "16.2.0",
+    "@angular/forms": "16.2.0",
+    "@angular/platform-browser": "16.2.0",
+    "@angular/platform-browser-dynamic": "16.2.0",
+    "rxjs": "7.8.1",
+    "tslib": "2.6.2",
+    "zone.js": "0.13.1"
+  },
+  "devDependencies": {
+    "@angular-devkit/build-angular": "16.2.4",
+    "@angular/cli": "16.2.4",
+    "@angular/compiler-cli": "16.2.0",
+    "@types/jasmine": "4.3.1",
+    "jasmine-core": "5.1.1",
+    "karma": "6.4.2",
+    "typescript": "5.1.6"
+  }
+}

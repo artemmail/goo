@@ -1,0 +1,24 @@
+<main>
+  <h1>Goo Effects (Angular Port)</h1>
+  <section class="canvas-row">
+    <div class="panel">
+      <h2>Source</h2>
+      <canvas #canvas></canvas>
+    </div>
+    <div class="panel">
+      <h2>Preview</h2>
+      <canvas #preview></canvas>
+    </div>
+  </section>
+
+  <section class="controls">
+    <label>
+      <input type="radio" name="effect" value="spikes" [(ngModel)]="activeEffect" (change)="renderEffect()">
+      Spikes
+    </label>
+    <label>
+      <input type="radio" name="effect" value="smear" [(ngModel)]="activeEffect" (change)="renderEffect()">
+      Smear
+    </label>
+  </section>
+</main>

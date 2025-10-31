@@ -1,0 +1,28 @@
+h1 {
+  margin-top: 0;
+  font-size: 2rem;
+}
+
+.canvas-row {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.controls {
+  display: flex;
+  gap: 1rem;
+}
+
+label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
