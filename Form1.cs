@@ -18,8 +18,9 @@ namespace Goo
 			InitializeComponent();
 
                         _SrcBmp = LoadSourceBitmap();
-                        _DstBmp = new Bitmap(_SrcBmp);
-			pictureBox.Image = _DstBmp;
+                        _SrcBmp = EnsureBitmapFormat(_SrcBmp);
+                        _DstBmp = CreateDestinationBitmap(_SrcBmp);
+                        pictureBox.Image = _DstBmp;
 			_EffectList.DataSource = new BaseEffect[] { new Spikes(), new Smear() };
 			_EffectList.SelectedIndexChanged += delegate
 			{
@@ -113,6 +114,37 @@ namespace Goo
                         }
 
                         return bmp;
+                }
+
+                private static Bitmap EnsureBitmapFormat(Bitmap bitmap)
+                {
+                        if (bitmap.PixelFormat == PixelFormat.Format32bppArgb)
+                        {
+                                return bitmap;
+                        }
+
+                        Bitmap converted = new Bitmap(bitmap.Width, bitmap.Height, PixelFormat.Format32bppArgb);
+
+                        using (Graphics g = Graphics.FromImage(converted))
+                        {
+                                g.DrawImage(bitmap, Point.Empty);
+                        }
+
+                        bitmap.Dispose();
+
+                        return converted;
+                }
+
+                private static Bitmap CreateDestinationBitmap(Bitmap source)
+                {
+                        Bitmap destination = new Bitmap(source.Width, source.Height, PixelFormat.Format32bppArgb);
+
+                        using (Graphics g = Graphics.FromImage(destination))
+                        {
+                                g.DrawImage(source, Point.Empty);
+                        }
+
+                        return destination;
                 }
 
 
