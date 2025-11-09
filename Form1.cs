@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.Drawing.Imaging;
+using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace Goo
 {
@@ -15,8 +17,8 @@ namespace Goo
 		{
 			InitializeComponent();
 
-			_SrcBmp = new Bitmap(_SrcBmpFile);
-			_DstBmp = new Bitmap(_SrcBmp);
+                        _SrcBmp = LoadSourceBitmap();
+                        _DstBmp = new Bitmap(_SrcBmp);
 			pictureBox.Image = _DstBmp;
 			_EffectList.DataSource = new BaseEffect[] { new Spikes(), new Smear() };
 			_EffectList.SelectedIndexChanged += delegate
@@ -28,7 +30,7 @@ namespace Goo
 			SelectedEffect = (BaseEffect)_EffectList.Items[0];
 		}
 
-		readonly string _SrcBmpFile = "goo.bmp";
+                readonly string _SrcBmpFile = "goo.bmp";
 
 		Bitmap _SrcBmp;
 		Bitmap _DstBmp;
@@ -45,8 +47,76 @@ namespace Goo
 			}
 		}
 
+                private Bitmap LoadSourceBitmap()
+                {
+                        try
+                        {
+                                if (File.Exists(_SrcBmpFile))
+                                {
+                                        return new Bitmap(_SrcBmpFile);
+                                }
 
-		unsafe void redraw()
+                                MessageBox.Show(
+                                        $"Файл '{_SrcBmpFile}' не найден. Будет создано временное изображение.",
+                                        Text,
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Information);
+                        }
+                        catch (Exception ex)
+                        {
+                                MessageBox.Show(
+                                        $"Не удалось загрузить '{_SrcBmpFile}'.\nПричина: {ex.Message}\nБудет создано временное изображение.",
+                                        Text,
+                                        MessageBoxButtons.OK,
+                                        MessageBoxIcon.Warning);
+                        }
+
+                        return CreateFallbackBitmap(pictureBox.Width, pictureBox.Height);
+                }
+
+                private static Bitmap CreateFallbackBitmap(int width, int height)
+                {
+                        width = Math.Max(1, width);
+                        height = Math.Max(1, height);
+
+                        Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
+
+                        using (Graphics g = Graphics.FromImage(bmp))
+                        {
+                                g.SmoothingMode = SmoothingMode.AntiAlias;
+                                Rectangle rect = new Rectangle(0, 0, width, height);
+
+                                using (LinearGradientBrush brush = new LinearGradientBrush(
+                                        rect,
+                                        Color.FromArgb(64, 130, 202),
+                                        Color.FromArgb(31, 31, 31),
+                                        LinearGradientMode.ForwardDiagonal))
+                                {
+                                        g.FillRectangle(brush, rect);
+                                }
+
+                                using (Pen pen = new Pen(Color.FromArgb(180, Color.White), 3))
+                                {
+                                        g.DrawRectangle(pen, 10, 10, width - 20, height - 20);
+                                }
+
+                                string text = "goo.bmp отсутствует";
+                                using (Font font = new Font(FontFamily.GenericSansSerif, Math.Max(12, Math.Min(width, height) / 15f), FontStyle.Bold))
+                                {
+                                        SizeF textSize = g.MeasureString(text, font);
+                                        PointF location = new PointF((width - textSize.Width) / 2, (height - textSize.Height) / 2);
+                                        using (Brush textBrush = new SolidBrush(Color.WhiteSmoke))
+                                        {
+                                                g.DrawString(text, font, textBrush, location);
+                                        }
+                                }
+                        }
+
+                        return bmp;
+                }
+
+
+                unsafe void redraw()
 		{
 			if (SelectedEffect != null)
 				SelectedEffect.Apply(_ChkFilter.Checked, _DstBmp, _SrcBmp);
