@@ -5,7 +5,7 @@ using System.Drawing;
 
 namespace Goo
 {
-	public struct Vector4
+	public class Vector4
 	{
 		public double X, Y, Z, W;
 
@@ -18,7 +18,7 @@ namespace Goo
 			Z = (color & 0xff) / 255.0;
 			Y = ((color >> 8) & 0xff) / 255.0;
 			X = ((color >> 16) & 0xff) / 255.0;
-			W = (color >> 24) / 255.0;
+            W = (color >> 24) / 255.0;
 		}
 
 		public uint ToColor()
